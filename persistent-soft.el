@@ -1,4 +1,6 @@
-;;; persistent-soft --- Persistent storage, returning nil on failure
+;;; persistent-soft.el --- Persistent storage, returning nil on failure
+;;
+;; Copyright (c) 2012 Roland Walker
 ;;
 ;; Author: Roland Walker walker@pobox.com
 ;; URL: https://github.com/rolandwalker/persistent-soft.el
@@ -7,8 +9,6 @@
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data
 ;; Package-Requires: ((pcache "0.2.3"))
-;;
-;; Copyright (c) 2012 Roland Walker
 ;;
 ;; Simplified BSD License
 ;;
