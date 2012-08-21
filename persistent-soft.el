@@ -49,7 +49,7 @@
 ;;
 ;; Compatibility
 ;;
-;;    Tested only on GNU Emacs version 24.x
+;;    Tested only on GNU Emacs version 24.1
 ;;
 ;; Bugs
 ;;
@@ -202,7 +202,7 @@ on failure, without throwing an error."
 ;; coding: utf-8
 ;; End:
 ;;
-;; LocalWords:
+;; LocalWords:  pcache eieio callf
 ;;
 
 ;;; persistent-soft.el ends here

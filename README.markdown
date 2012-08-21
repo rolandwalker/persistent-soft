@@ -1,10 +1,9 @@
 Overview
 ========
-
-Persistent storage for Emacs, returning nil on failure
+Persistent storage for Emacs, returning nil on failure.
 
 persistent-soft
------------
+---------------
 This is a (trivial) wrapper around pcache.el, providing "soft"
 fetch and store routines which never throw an error, but instead
 return nil on failure.
@@ -26,11 +25,11 @@ somewhere Emacs can find it, and add the following to your
 	(require 'persistent-soft)
 
 See Also
----------
-	M-x customize-group RET persistent-soft RET
+--------
+M-x customize-group RET persistent-soft RET
 
 Notes
----------
+-----
 Using pcache with a more recent version of CEDET gives
 
 	Unsafe call to `eieio-persistent-read'.
@@ -39,13 +38,11 @@ Using pcache with a more recent version of CEDET gives
 This library provides something of a workaround.
 
 Compatibility
----------
-
+-------------
 Tested only on GNU Emacs version 24.x
 
 Bugs
----------
-
+----
 Persistent-soft is a wrapper around pcache which is a wrapper
 around eieio.  Therefore, persistent-soft should probably be
 rewritten to use eieio directly or recast as a patch to pcache.
