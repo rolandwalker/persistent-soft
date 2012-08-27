@@ -107,6 +107,12 @@
 
 (require 'pcache nil t)
 
+(declare-function pcache-get         "pcache.el")
+(declare-function pcache-has         "pcache.el")
+(declare-function pcache-put         "pcache.el")
+(declare-function pcache-repository  "pcache.el")
+(declare-function pcache-save        "pcache.el")
+
 ;;; customizable variables
 
 ;;;###autoload
