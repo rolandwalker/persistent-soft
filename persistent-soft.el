@@ -47,9 +47,12 @@
 ;;
 ;;    This library provides something of a workaround.
 ;;
-;; Compatibility
+;; Compatibility and Requirements
 ;;
 ;;    Tested only on GNU Emacs version 24.1
+;;
+;;    Uses pcache.el if present (all operations are noops if
+;;    not present)
 ;;
 ;; Bugs
 ;;

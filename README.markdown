@@ -46,3 +46,10 @@ Bugs
 Persistent-soft is a wrapper around pcache which is a wrapper
 around eieio.  Therefore, persistent-soft should probably be
 rewritten to use eieio directly or recast as a patch to pcache.
+
+Compatibility and Requirements
+------------------------------
+Tested only on GNU Emacs version 24.1
+
+Uses if present: pcache.el (all operations are noops when
+not present)
