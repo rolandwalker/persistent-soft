@@ -51,7 +51,7 @@
 ;;
 ;;    Tested only on GNU Emacs version 24.1
 ;;
-;;    Uses pcache.el if present (all operations are noops if
+;;    Uses if present: pcache.el (all operations are noops when
 ;;    not present)
 ;;
 ;; Bugs
