@@ -7,7 +7,7 @@
 ;; Version: 0.8.1
 ;; Last-Updated: 27 Aug 2012
 ;; EmacsWiki: PersistentSoft
-;; Keywords: data
+;; Keywords: data, extensions
 ;; Package-Requires: ((pcache "0.2.3"))
 ;;
 ;; Simplified BSD License
