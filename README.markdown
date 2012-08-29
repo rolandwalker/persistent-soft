@@ -51,5 +51,5 @@ Compatibility and Requirements
 ------------------------------
 Tested only on GNU Emacs version 24.1
 
-Uses if present: pcache.el (all operations are noops when
+Uses if present: [pcache.el](http://github.com/sigma/pcache) (all operations are noops when
 not present)
