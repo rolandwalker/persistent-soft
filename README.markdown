@@ -37,10 +37,6 @@ Using pcache with a more recent version of CEDET gives
 
 This library provides something of a workaround.
 
-Compatibility
--------------
-Tested only on GNU Emacs version 24.x
-
 Bugs
 ----
 Persistent-soft is a wrapper around pcache which is a wrapper
@@ -49,7 +45,7 @@ rewritten to use eieio directly or recast as a patch to pcache.
 
 Compatibility and Requirements
 ------------------------------
-Tested only on GNU Emacs version 24.1
+Tested on GNU Emacs versions 23.3 and 24.1
 
 Uses if present: [pcache.el](http://github.com/sigma/pcache) (all operations are noops when
 not present)
