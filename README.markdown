@@ -1,9 +1,23 @@
 Overview
 ========
-Persistent storage for Emacs, returning nil on failure.
+
+Persistent storage, returning nil on failure.
+
+Quickstart
+----------
+
+    (require 'persistent-soft)
+    (persistent-soft-store 'hundred 100 "mydatastore")
+    (persistent-soft-fetch 'hundred "mydatastore")    ; 100
+    (persistent-soft-fetch 'thousand "mydatastore")   ; nil
+
+	quit and restart Emacs
+
+    (persistent-soft-fetch 'hundred "mydatastore")    ; 100
 
 persistent-soft
 ---------------
+
 This is a (trivial) wrapper around pcache.el, providing "soft"
 fetch and store routines which never throw an error, but instead
 return nil on failure.
@@ -13,10 +27,10 @@ useful from other Lisp code.
 
 The following functions are provided
 
-	persistent-soft-exists-p
-	persistent-soft-fetch
-	persistent-soft-flush
 	persistent-soft-store
+    persistent-soft-fetch
+    persistent-soft-exists-p
+	persistent-soft-flush
 
 To use persistent-soft, place the persistent-soft.el library
 somewhere Emacs can find it, and add the following to your
@@ -26,10 +40,12 @@ somewhere Emacs can find it, and add the following to your
 
 See Also
 --------
+
 M-x customize-group RET persistent-soft RET
 
 Notes
 -----
+
 Using pcache with a more recent version of CEDET gives
 
 	Unsafe call to `eieio-persistent-read'.
@@ -39,12 +55,14 @@ This library provides something of a workaround.
 
 Bugs
 ----
+
 Persistent-soft is a wrapper around pcache which is a wrapper
 around eieio.  Therefore, persistent-soft should probably be
 rewritten to use eieio directly or recast as a patch to pcache.
 
 Compatibility and Requirements
 ------------------------------
+
 Tested on GNU Emacs versions 23.3 and 24.1
 
 Uses if present: [pcache.el](http://github.com/sigma/pcache) (all operations are noops when
