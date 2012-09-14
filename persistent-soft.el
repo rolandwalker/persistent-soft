@@ -119,8 +119,7 @@
 ;;; requires
 
 ;; for callf, flet
-(eval-when-compile
-  (require 'cl))
+(require 'cl)
 
 (require 'pcache nil t)
 
@@ -223,6 +222,7 @@ on failure, without throwing an error."
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; coding: utf-8
+;; byte-compile-warnings: (not cl-functions)
 ;; End:
 ;;
 ;; LocalWords:  pcache eieio callf
