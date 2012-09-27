@@ -8,14 +8,16 @@ Persistent storage, returning nil on failure.
 Quickstart
 ----------
 
-	(require 'persistent-soft)
-	(persistent-soft-store 'hundred 100 "mydatastore")
-	(persistent-soft-fetch 'hundred "mydatastore")    ; 100
-	(persistent-soft-fetch 'thousand "mydatastore")   ; nil
-
-	quit and restart Emacs
-
-	(persistent-soft-fetch 'hundred "mydatastore")    ; 100
+```lisp
+(require 'persistent-soft)
+(persistent-soft-store 'hundred 100 "mydatastore")
+(persistent-soft-fetch 'hundred "mydatastore")    ; 100
+(persistent-soft-fetch 'thousand "mydatastore")   ; nil
+ 
+;; quit and restart Emacs
+ 
+(persistent-soft-fetch 'hundred "mydatastore")    ; 100
+```
 
 persistent-soft
 ---------------
@@ -38,7 +40,9 @@ To use persistent-soft, place the persistent-soft.el library
 somewhere Emacs can find it, and add the following to your
 ~/.emacs file:
 
-	(require 'persistent-soft)
+```lisp
+(require 'persistent-soft)
+```
 
 See Also
 --------
