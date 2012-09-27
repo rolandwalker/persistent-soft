@@ -8,14 +8,14 @@ Persistent storage, returning nil on failure.
 Quickstart
 ----------
 
-    (require 'persistent-soft)
-    (persistent-soft-store 'hundred 100 "mydatastore")
-    (persistent-soft-fetch 'hundred "mydatastore")    ; 100
-    (persistent-soft-fetch 'thousand "mydatastore")   ; nil
+	(require 'persistent-soft)
+	(persistent-soft-store 'hundred 100 "mydatastore")
+	(persistent-soft-fetch 'hundred "mydatastore")    ; 100
+	(persistent-soft-fetch 'thousand "mydatastore")   ; nil
 
 	quit and restart Emacs
 
-    (persistent-soft-fetch 'hundred "mydatastore")    ; 100
+	(persistent-soft-fetch 'hundred "mydatastore")    ; 100
 
 persistent-soft
 ---------------
@@ -30,8 +30,8 @@ useful from other Lisp code.
 The following functions are provided
 
 	persistent-soft-store
-    persistent-soft-fetch
-    persistent-soft-exists-p
+	persistent-soft-fetch
+	persistent-soft-exists-p
 	persistent-soft-flush
 
 To use persistent-soft, place the persistent-soft.el library
