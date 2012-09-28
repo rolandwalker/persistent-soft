@@ -32,6 +32,10 @@ TEST_DEP_2=pcache
 TEST_DEP_2_STABLE_URL=https://raw.github.com/sigma/pcache/fa8f863546e2e8f2fc0a70f5cc766a7f584e01b6/pcache.el
 TEST_DEP_2_LATEST_URL=https://raw.github.com/sigma/pcache/master/pcache.el
 
+.PHONY : build downloads downloads-latest autoloads test-autoloads test-travis \
+         test test-interactive clean edit test-dep-1 test-dep-2 test-dep-3     \
+         test-dep-4 test-dep-5 test-dep-6 test-dep-7 test-dep-8 test-dep-9
+
 build :
 	$(EMACS) $(EMACS_BATCH) --eval             \
 	    "(progn                                \
