@@ -118,8 +118,11 @@
 
 ;;; requires
 
-;; for callf, flet
-(require 'cl)
+(eval-and-compile
+  ;; for callf, flet/cl-flet
+  (require 'cl)
+  (unless (fboundp 'cl-flet)
+    (defalias 'cl-flet 'flet)))
 
 (require 'pcache nil t)
 
@@ -156,10 +159,10 @@ Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (let ((repo (ignore-errors
-                  (flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
       (when (and repo (ignore-errors
-                        (flet ((message (&rest args) t))
+                        (cl-flet ((message (&rest args) t))
                           (pcache-has repo symbol))))
         t))))
 
@@ -173,10 +176,10 @@ Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (let ((repo (ignore-errors
-                  (flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
       (and repo (ignore-errors
-                  (flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest args) t))
                     (pcache-get repo symbol)))))))
 
 ;;;###autoload
@@ -185,10 +188,10 @@ Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (let ((repo (ignore-errors
-                  (flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
       (when (and repo (ignore-errors
-                        (flet ((message (&rest args) t))
+                        (cl-flet ((message (&rest args) t))
                           (pcache-save repo 'force))))
         t))))
 
@@ -206,11 +209,11 @@ on failure, without throwing an error."
              (stringp location))
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
     (let ((repo (ignore-errors
-                (flet ((message (&rest args) t))
-                    (pcache-repository location)))))
+                (cl-flet ((message (&rest args) t))
+                  (pcache-repository location)))))
       (and repo (ignore-errors
-                (flet ((message (&rest args) t))
-                    (pcache-put repo symbol value expiration)))))))
+                (cl-flet ((message (&rest args) t))
+                  (pcache-put repo symbol value expiration)))))))
 
 (provide 'persistent-soft)
 
