@@ -69,7 +69,10 @@ rewritten to use eieio directly or recast as a patch to pcache.
 Compatibility and Requirements
 ------------------------------
 
-Tested on GNU Emacs versions 23.3 and 24.1
+	GNU Emacs version 24.3-devel     : yes, at the time of writing
+	GNU Emacs version 24.1 & 24.2    : yes
+	GNU Emacs version 23.3           : yes
+	GNU Emacs version 22.3 and lower : no
 
 Uses if present: [pcache.el](http://github.com/sigma/pcache) (all operations are noops when
 not present)
