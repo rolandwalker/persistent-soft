@@ -184,7 +184,8 @@ This is a noop unless LOCATION is a string and pcache is loaded.
 
 Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
-             (stringp location))
+             (stringp location)
+             (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
                   (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
@@ -201,7 +202,8 @@ This is a noop unless LOCATION is a string and pcache is loaded.
 
 Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
-             (stringp location))
+             (stringp location)
+             (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
                   (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
