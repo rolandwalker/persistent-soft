@@ -41,6 +41,7 @@
 ;;     `persistent-soft-fetch'
 ;;     `persistent-soft-exists-p'
 ;;     `persistent-soft-flush'
+;;     `persistent-soft-location-readable'
 ;;
 ;; To use persistent-soft, place the persistent-soft.el library
 ;; somewhere Emacs can find it, and add the following to your
@@ -125,6 +126,7 @@
 ;;; requires
 
 (eval-and-compile
+  (defvar pcache-directory)
   ;; for callf, flet/cl-flet
   (require 'cl)
   (unless (fboundp 'cl-flet)
@@ -155,6 +157,24 @@
   :group 'persistent-soft)
 
 ;;; utility functions
+
+;;;###autoload
+(defun persistent-soft-location-readable (location)
+  "Return non-nil if LOCATION is a readable persistent-soft data store."
+  (cond
+    ((and (boundp '*pcache-repositories*)
+          (hash-table-p *pcache-repositories*)
+          (gethash location *pcache-repositories*))
+     (gethash location *pcache-repositories*))
+    ((not (boundp 'pcache-directory))
+     nil)
+    ((not (file-exists-p (expand-file-name location pcache-directory)))
+     nil)
+    (t
+     (condition-case nil
+         (cl-flet ((message (&rest args) t))
+           (pcache-repository location))
+       (error nil)))))
 
 ;;;###autoload
 (defun persistent-soft-exists-p (symbol location)
