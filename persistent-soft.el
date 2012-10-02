@@ -193,10 +193,12 @@ Returns nil on failure, without throwing an error."
     (let ((repo (ignore-errors
                   (cl-flet ((message (&rest args) t))
                     (pcache-repository location)))))
-      (when (and repo (ignore-errors
-                        (cl-flet ((message (&rest args) t))
-                          (pcache-save repo 'force))))
-        t))))
+      (when repo
+        (condition-case nil
+          (cl-flet ((message (&rest args) t))
+            (pcache-save repo 'force)
+            t)
+          (error nil))))))
 
 ;;;###autoload
 (defun persistent-soft-store (symbol value location &optional expiration)
