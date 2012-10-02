@@ -31,6 +31,9 @@ TEST_DEP_1_LATEST_URL=https://raw.github.com/emacsmirror/emacs/master/lisp/emacs
 TEST_DEP_2=pcache
 TEST_DEP_2_STABLE_URL=https://raw.github.com/sigma/pcache/fa8f863546e2e8f2fc0a70f5cc766a7f584e01b6/pcache.el
 TEST_DEP_2_LATEST_URL=https://raw.github.com/sigma/pcache/master/pcache.el
+TEST_DEP_3=list-utils
+TEST_DEP_3_STABLE_URL=https://raw.github.com/rolandwalker/list-utils/557077141dccbedb460f3786d0f0900293214851/list-utils.el
+TEST_DEP_3_LATEST_URL=https://raw.github.com/rolandwalker/list-utils/master/list-utils.el
 
 .PHONY : build downloads downloads-latest autoloads test-autoloads test-travis \
          test test-prep test-batch test-interactive clean edit test-dep-1      \
@@ -58,13 +61,25 @@ test-dep-2 :
 	      (require '$(TEST_DEP_2)))"                  || \
 	(echo "Can't load test dependency $(TEST_DEP_2).el, run 'make downloads' to fetch it" ; exit 1)
 
+test-dep-3 :
+	@cd $(TEST_DIR)                                   && \
+	$(EMACS) $(EMACS_BATCH)  -L . -L .. --eval           \
+	    "(progn                                          \
+	      (setq package-load-list '(($(TEST_DEP_3) t)))  \
+	      (when (fboundp 'package-initialize)            \
+	       (package-initialize))                         \
+	      (require '$(TEST_DEP_3)))"                  || \
+	(echo "Can't load test dependency $(TEST_DEP_3).el, run 'make downloads' to fetch it" ; exit 1)
+
 downloads :
 	$(CURL) '$(TEST_DEP_1_STABLE_URL)' > $(TEST_DIR)/$(TEST_DEP_1).el
 	$(CURL) '$(TEST_DEP_2_STABLE_URL)' > $(TEST_DIR)/$(TEST_DEP_2).el
+	$(CURL) '$(TEST_DEP_3_STABLE_URL)' > $(TEST_DIR)/$(TEST_DEP_3).el
 
 downloads-latest :
 	$(CURL) '$(TEST_DEP_1_LATEST_URL)' > $(TEST_DIR)/$(TEST_DEP_1).el
 	$(CURL) '$(TEST_DEP_2_LATEST_URL)' > $(TEST_DIR)/$(TEST_DEP_2).el
+	$(CURL) '$(TEST_DEP_3_LATEST_URL)' > $(TEST_DIR)/$(TEST_DEP_3).el
 
 autoloads :
 	$(EMACS) $(EMACS_BATCH) --eval                       \
@@ -79,7 +94,7 @@ test-autoloads : autoloads
 test-travis :
 	@if test -z "$$TRAVIS" && test -e $(TRAVIS_FILE); then travis-lint $(TRAVIS_FILE); fi
 
-test-prep : build test-dep-1 test-dep-2 test-autoloads test-travis
+test-prep : build test-dep-1 test-dep-2 test-dep-3 test-autoloads test-travis
 
 test-batch :
 	@cd $(TEST_DIR)                                   && \
@@ -117,7 +132,8 @@ test-interactive : test-prep
 test : test-prep test-batch
 
 clean :
-	@rm -f $(AUTOLOADS_FILE) *.elc *~ */*.elc */*~ $(TEST_DIR)/$(TEST_DEP_1).el $(TEST_DIR)/$(TEST_DEP_2).el
+	@rm -f $(AUTOLOADS_FILE) *.elc *~ */*.elc */*~ $(TEST_DIR)/$(TEST_DEP_1).el \
+         $(TEST_DIR)/$(TEST_DEP_2).el $(TEST_DIR)/$(TEST_DEP_3).el
 	@rm -rf '$(TEST_DIR)/$(TEST_DATADIR)'
 
 edit :

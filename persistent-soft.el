@@ -9,7 +9,7 @@
 ;; Last-Updated: 14 Sep 2012
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data, extensions
-;; Package-Requires: ((pcache "0.2.3"))
+;; Package-Requires: ((pcache "0.2.3") (list-utils "0.1.2"))
 ;;
 ;; Simplified BSD License
 ;;
@@ -79,6 +79,9 @@
 ;;
 ;; TODO
 ;;
+;;     Correctly reconstitute cyclic list structures instead of
+;;     breaking them.
+;;
 ;;     Notice and delete old data files.
 ;;
 ;;; License
@@ -127,7 +130,8 @@
   (unless (fboundp 'cl-flet)
     (defalias 'cl-flet 'flet)))
 
-(require 'pcache nil t)
+(require 'pcache     nil t)
+(require 'list-utils nil t)
 
 (declare-function pcache-get         "pcache.el")
 (declare-function pcache-has         "pcache.el")
@@ -213,6 +217,10 @@ on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
+    (when (listp value)
+      ;; truncate cyclic lists b/c they corrupt the data store
+      (let ((measurer (if (fboundp 'list-utils-safe-length) 'list-utils-safe-length 'safe-length)))
+        (setq value (subseq value 0 (funcall measurer value)))))
     (let ((repo (ignore-errors
                 (cl-flet ((message (&rest args) t))
                   (pcache-repository location)))))
