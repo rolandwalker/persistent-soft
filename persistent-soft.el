@@ -217,6 +217,17 @@ on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
+    (when (or (bufferp value)
+              (windowp value)
+              (framep value)
+              (overlayp value)
+              (processp value)
+              (fontp value)
+              (window-configuration-p value)
+              (markerp value))
+      ;; Type can't be serialized by EIEIO - avoid corrupting the data store.
+      ;; This list of types may not be complete.
+      (setq value nil))
     (when (listp value)
       ;; truncate cyclic lists b/c they corrupt the data store
       (let ((measurer (if (fboundp 'list-utils-safe-length) 'list-utils-safe-length 'safe-length)))
