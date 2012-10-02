@@ -204,7 +204,7 @@ Returns nil on failure, without throwing an error."
 
 This is a noop unless LOCATION is a string and pcache is loaded.
 
-Optional EXPIRATION sets an expiry times in seconds.
+Optional EXPIRATION sets an expiry time in seconds.
 
 Returns a true value if storage was successful.  Returns nil
 on failure, without throwing an error."
