@@ -24,4 +24,4 @@
 ;; End:
 ;;
 
-;;; persistent-soft-test.el ends here
+;;; persistent-soft-b-test.el ends here
