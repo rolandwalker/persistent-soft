@@ -36,6 +36,7 @@ The following functions are provided
 	persistent-soft-exists-p
 	persistent-soft-flush
 	persistent-soft-location-readable
+	persistent-soft-location-destroy
 
 To use persistent-soft, place the persistent-soft.el library
 somewhere Emacs can find it, and add the following to your

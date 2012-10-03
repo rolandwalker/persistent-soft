@@ -42,6 +42,7 @@
 ;;     `persistent-soft-exists-p'
 ;;     `persistent-soft-flush'
 ;;     `persistent-soft-location-readable'
+;;     `persistent-soft-location-destroy'
 ;;
 ;; To use persistent-soft, place the persistent-soft.el library
 ;; somewhere Emacs can find it, and add the following to your
@@ -143,6 +144,7 @@
 (declare-function pcache-put         "pcache.el")
 (declare-function pcache-repository  "pcache.el")
 (declare-function pcache-save        "pcache.el")
+(declare-function pcache-destroy-repository  "pcache.el")
 
 ;;; customizable variables
 
@@ -178,6 +180,18 @@
          (cl-flet ((message (&rest args) t))
            (pcache-repository location))
        (error nil)))))
+
+;;;###autoload
+(defun persistent-soft-location-destroy (location)
+  "Destroy LOCATION (a persistent-soft data store).
+
+Returns non-nil on confirmed success."
+  (cond
+    ((not (boundp 'pcache-directory))
+     nil)
+    (t
+     (ignore-errors (pcache-destroy-repository location))))
+  (not (file-exists-p (expand-file-name location pcache-directory))))
 
 ;;;###autoload
 (defun persistent-soft-exists-p (symbol location)

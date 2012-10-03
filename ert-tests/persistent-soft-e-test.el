@@ -35,6 +35,9 @@
 (defun persistent-softest-location-readable (location)
   "Call `persistent-soft-location-readable' but don't fail when library not present."
   (ignore-errors (persistent-soft-location-readable location)))
+(defun persistent-softest-location-destroy (location)
+  "Call `persistent-soft-location-destroy' but don't fail when library not present."
+  (ignore-errors (persistent-soft-location-destroy location)))
 
 
 ;;; features
@@ -43,7 +46,7 @@
   (should-not (featurep 'persistent-soft)))
 
 
-;;; files
+;;; files and locations
 
 (ert-deftest persistent-soft-e:b-files-01 nil
   (should
@@ -57,6 +60,15 @@
   "ert-test-persistent-soft-location-2 is never supposed to exist"
   (should-not
    (persistent-softest-location-readable "ert-test-persistent-soft-location-2")))
+
+(ert-deftest persistent-soft-e:b-files-04 nil
+  (should-not
+   (persistent-softest-location-destroy "ert-test-persistent-soft-location-1")))
+
+(ert-deftest persistent-soft-e:b-files-05 nil
+  "ert-test-persistent-soft-location-2 is never supposed to exist"
+  (should-not
+   (persistent-softest-location-destroy "ert-test-persistent-soft-location-2")))
 
 
 ;;; data types

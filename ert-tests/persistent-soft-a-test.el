@@ -26,7 +26,7 @@
   (should (featurep 'pcache)))
 
 
-;;; files
+;;; files and locations
 
 (ert-deftest persistent-soft-a:b-files-01 nil
   "Any number of later tests could fail if the test_output directory already exists at this point."
@@ -34,11 +34,21 @@
    (file-exists-p pcache-directory)))
 
 (ert-deftest persistent-soft-a:b-files-02 nil
-  "Any number of later tests could fail if the ert-test-persistent-soft-location-1 data store already exists at this point."
+  "Any number of later tests could fail if the ert-test-persistent-soft-location-1 data store exists at this point."
+  (should
+   (persistent-soft-location-destroy "ert-test-persistent-soft-location-1")))
+
+(ert-deftest persistent-soft-a:b-files-03 nil
+  "ert-test-persistent-soft-location-2 is never supposed to exist"
+  (should
+   (persistent-soft-location-destroy "ert-test-persistent-soft-location-2")))
+
+(ert-deftest persistent-soft-a:b-files-04 nil
+  "Any number of later tests could fail if the ert-test-persistent-soft-location-1 data store exists at this point."
   (should-not
    (persistent-soft-location-readable "ert-test-persistent-soft-location-1")))
 
-(ert-deftest persistent-soft-a:b-files-03 nil
+(ert-deftest persistent-soft-a:b-files-05 nil
   "ert-test-persistent-soft-location-2 is never supposed to exist"
   (should-not
    (persistent-soft-location-readable "ert-test-persistent-soft-location-2")))

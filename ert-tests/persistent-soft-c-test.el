@@ -30,7 +30,7 @@
   (should (featurep 'pcache)))
 
 
-;;; files
+;;; files and locations
 
 (ert-deftest persistent-soft-c:b-files-01 nil
   (should-not
