@@ -3,8 +3,8 @@
 ;;;
 ;;; Directory "test_output" should not yet exist when this test is run.
 ;;;
-;;; todo - test more data types
-;;;
+;;; todo - set pcache-directory location when load-file-name is not set,
+;;;        restore to original value after testing
 
 ;;; requires and setup
 
