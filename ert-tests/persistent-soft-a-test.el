@@ -110,7 +110,7 @@
   (should-not
    (persistent-soft-exists-p 'actual-key "ert-test-persistent-soft-location-2")))
 
-(ert-deftest persistent-soft-a:f-nonexistent-location-01 nil
+(ert-deftest persistent-soft-a:f-nonexistent-location-02 nil
   (should-not
    (persistent-soft-fetch 'actual-key "ert-test-persistent-soft-location-2")))
 

@@ -38,7 +38,7 @@
   (should
    (persistent-soft-location-readable "ert-test-persistent-soft-location-1")))
 
-(ert-deftest persistent-soft-a:b-files-03 nil
+(ert-deftest persistent-soft-b:b-files-03 nil
   "ert-test-persistent-soft-location-2 is never supposed to exist"
   (should-not
    (persistent-soft-location-readable "ert-test-persistent-soft-location-2")))
