@@ -159,7 +159,10 @@
     (dolist (num (number-sequence 1 1000))
       (puthash num (number-to-string num) value))
     (should
-     (persistent-soft-store 'hash-key value "ert-test-persistent-soft-location-1"))
+     (let ((persistent-soft-inhibit-sanity-checks t))
+       ;; inhibiting sanity check keeps the stored hash from being copied,
+       ;; allowing `equal' to work below
+       (persistent-soft-store 'hash-key value "ert-test-persistent-soft-location-1")))
     (should
      (persistent-soft-exists-p 'hash-key "ert-test-persistent-soft-location-1"))
     (should (equal value
@@ -304,8 +307,8 @@
      (persistent-soft-store 'buffer-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'buffer-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-02 nil
   (let ((value (selected-window)))
@@ -313,8 +316,8 @@
      (persistent-soft-store 'window-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'window-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'window-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'window-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-03 nil
   (let ((value (selected-frame)))
@@ -322,8 +325,8 @@
      (persistent-soft-store 'frame-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'frame-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'frame-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'frame-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-04 nil
   (let ((value (make-overlay 1 1)))
@@ -331,8 +334,8 @@
      (persistent-soft-store 'overlay-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'overlay-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'overlay-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'overlay-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-05 nil
   (let ((value (start-process "tester-sleeper" "*tester-sleeper*" "sleep" "10")))
@@ -340,8 +343,8 @@
      (persistent-soft-store 'process-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'process-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'process-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'process-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-06 nil
   (let ((value (make-marker)))
@@ -350,8 +353,8 @@
      (persistent-soft-store 'marker-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'marker-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'marker-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'marker-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-07 nil
   :tags '(:interactive)
@@ -360,37 +363,39 @@
      (persistent-soft-store 'window-config-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'window-config-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'window-config-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'window-config-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-08 nil
+  :tags '(:interactive)
   (let ((value (find-font (font-spec :name "Courier"))))
     (should
      (persistent-soft-store 'font-obj-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'font-obj-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'font-obj-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'font-obj-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-a:h-invalid-data-types-09 nil
+  :tags '(:interactive)
   (let ((value (current-frame-configuration)))
     (should
      (persistent-soft-store 'buffer-key value "ert-test-persistent-soft-location-1"))
     (should
      (persistent-soft-exists-p 'buffer-key "ert-test-persistent-soft-location-1"))
-    (should-not
-     (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1"))))
+    (should (stringp
+             (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1")))))
 
 ;; todo this type is not serializable, but there isn't a test for it in persistent-soft
 ;;
 ;; (ert-deftest persistent-soft-a:h-invalid-data-types-10 nil
 ;;   (let ((value (selected-terminal)))
 ;;     (should
-;;      (persistent-soft-store 'keymap-key value "ert-test-persistent-soft-location-1"))
+;;      (persistent-soft-store 'terminal-key value "ert-test-persistent-soft-location-1"))
 ;;     (should
-;;      (persistent-soft-exists-p 'keymap-key "ert-test-persistent-soft-location-1"))
-;;     (should (equal value
-;;                    (persistent-soft-fetch 'keymap-key "ert-test-persistent-soft-location-1")))))
+;;      (persistent-soft-exists-p 'terminal-key "ert-test-persistent-soft-location-1"))
+;;     (should (stringp
+;;                    (persistent-soft-fetch 'terminal-key "ert-test-persistent-soft-location-1")))))
 
 
 ;;; expiration
@@ -423,6 +428,47 @@
 (ert-deftest persistent-soft-a:j-flush-01 nil
   (should
    (persistent-soft-flush "ert-test-persistent-soft-location-1")))
+
+
+;;; sanitize - todo complex function should have more tests
+
+(ert-deftest persistent-soft-a:k-sanitize-01 nil
+  (let ((value '(1 2 3)))
+    (should (equal value
+                   (persistent-soft--sanitize-data value)))))
+
+(ert-deftest persistent-soft-a:k-sanitize-02 nil
+  (let ((value '[1 2 3]))
+    (should (equal value
+                   (persistent-soft--sanitize-data value)))))
+
+(ert-deftest persistent-soft-a:k-sanitize-03 nil
+  (let ((value '(1 2 (3 4 nil) nil)))
+    (should (equal value
+                   (persistent-soft--sanitize-data value)))))
+
+(ert-deftest persistent-soft-a:k-sanitize-04 nil
+  (let ((value '[1 2 [] [4 5 6] nil [nil]]))
+    (should (equal value
+                   (persistent-soft--sanitize-data value)))))
+
+(ert-deftest persistent-soft-a:k-sanitize-05 nil
+  (let ((value '[1 2 [] [4 5 6] (7 8 (9 10)) nil [nil]]))
+    (should (equal value
+                   (persistent-soft--sanitize-data value)))))
+
+(ert-deftest persistent-soft-a:k-sanitize-06 nil
+  (with-current-buffer "*scratch*"
+    (let ((value `[1 2 [] [4 5 6] (7 ,(current-buffer) (9 10)) nil [nil]]))
+      (should (equal '[1 2 [] [4 5 6] (7 "*scratch*" (9 10)) nil [nil]]
+                     (persistent-soft--sanitize-data value))))))
+
+(ert-deftest persistent-soft-a:k-sanitize-07 nil
+  (with-current-buffer "*scratch*"
+    (let ((value (make-hash-table)))
+      (puthash 1 (current-buffer) value)
+      (should (equal "*scratch*"
+                     (gethash 1 (persistent-soft--sanitize-data value)))))))
 
 
 ;;

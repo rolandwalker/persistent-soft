@@ -9,7 +9,7 @@
 ;; Last-Updated:  2 Oct 2012
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data, extensions
-;; Package-Requires: ((pcache "0.2.3") (list-utils "0.1.2"))
+;; Package-Requires: ((pcache "0.2.3") (list-utils "0.2.0"))
 ;;
 ;; Simplified BSD License
 ;;
@@ -148,6 +148,8 @@
 (declare-function pcache-repository          "pcache.el")
 (declare-function pcache-save                "pcache.el")
 (declare-function pcache-destroy-repository  "pcache.el")
+(declare-function list-utils-cyclic-subseq   "list-utils.el")
+(declare-function list-utils-safe-length     "list-utils.el")
 
 ;;; customizable variables
 
@@ -164,7 +166,81 @@
   :type 'number
   :group 'persistent-soft)
 
+;;; variables
+
+(defvar persistent-soft-inhibit-sanity-checks nil "Turn off sanitization of data at store-time.")
+
 ;;; utility functions
+
+(defun persistent-soft--sanitize-data (data)
+  "Traverse DATA, which may be a tree, replacing unsafe nodes with strings.
+
+\"Unsafe\" in this context means data that would not be
+successfully serialized by EIEIO.
+
+Returns sanitized copy of DATA.
+
+DATA may be of any type.  The type returned will be the same as
+DATA (or coerced to string if unsafe).
+
+This function reserves the right to remove as much information as
+needed for sanitization.  For example, if duplicate hash keys are
+created by stringification, the duplicate will be silently
+dropped.  The alternative to this destruction is a corrupted data
+store which cannot be fed to `read'.
+
+This function is also potentially slow, and may be inhibited
+by setting `persistent-soft-inhibit-sanity-checks'."
+  (cond
+    (persistent-soft-inhibit-sanity-checks
+     data)
+    ((null data)
+     nil)
+    ((and (vectorp data)
+          (= 0 (length data)))
+     (vector))
+    ((vectorp data)
+     (vconcat (list (persistent-soft--sanitize-data (aref data 0)))
+              (persistent-soft--sanitize-data (vconcat (cdr (append data nil))))))
+    ((listp data)
+     ;; truncate cyclic lists
+     (if (fboundp 'list-utils-cyclic-subseq)
+         (when (list-utils-cyclic-subseq data)
+           (setq data (subseq data 0 (list-utils-safe-length data))))
+       ;; else
+       (let ((len (safe-length data)))
+         (when (and (> len 0)
+                    (not (nthcdr len data)))
+           (setq data (subseq data 0 len)))))
+     (cons (persistent-soft--sanitize-data (car data))
+           (persistent-soft--sanitize-data (cdr data))))
+    ((hash-table-p data)
+     (let ((cleaned-hash (copy-hash-table data))
+           (default-value (gensym)))
+       (maphash #'(lambda (k v)
+                    (let ((new-k (persistent-soft--sanitize-data k))
+                          (new-v (persistent-soft--sanitize-data v)))
+                      (cond
+                        ((not (funcall (hash-table-test cleaned-hash) k new-k))
+                         (remhash k cleaned-hash)
+                         (when (eq default-value (gethash new-k cleaned-hash default-value))
+                           (puthash new-k new-v cleaned-hash)))
+                        ((not (equal v new-v))
+                         (puthash k new-v cleaned-hash)))))
+                cleaned-hash)
+       cleaned-hash))
+    ((or (bufferp data)
+         (windowp data)
+         (framep data)
+         (overlayp data)
+         (processp data)
+         (fontp data)
+         (window-configuration-p data)
+         (frame-configuration-p data)
+         (markerp data))
+     (format "%s" data))
+    (t
+     data)))
 
 ;;;###autoload
 (defun persistent-soft-location-readable (location)
@@ -259,21 +335,7 @@ on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
-    (when (or (bufferp value)
-              (windowp value)
-              (framep value)
-              (overlayp value)
-              (processp value)
-              (fontp value)
-              (window-configuration-p value)
-              (frame-configuration-p value)
-              (markerp value))
-      ;; Type can't be serialized by EIEIO - avoid corrupting the data store.
-      (setq value nil))
-    (when (listp value)
-      ;; truncate cyclic lists b/c they corrupt the data store
-      (let ((measurer (if (fboundp 'list-utils-safe-length) 'list-utils-safe-length 'safe-length)))
-        (setq value (subseq value 0 (funcall measurer value)))))
+    (callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
                 (cl-flet ((message (&rest args) t))
                   (pcache-repository location)))))
