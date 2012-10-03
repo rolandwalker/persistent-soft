@@ -80,6 +80,9 @@
 ;;
 ;; TODO
 ;;
+;;     Detect terminal type as returned by (selected-terminal)
+;;     as unserializable.
+;;
 ;;     Correctly reconstitute cyclic list structures instead of
 ;;     breaking them.
 ;;
@@ -246,9 +249,9 @@ on failure, without throwing an error."
               (processp value)
               (fontp value)
               (window-configuration-p value)
+              (frame-configuration-p value)
               (markerp value))
       ;; Type can't be serialized by EIEIO - avoid corrupting the data store.
-      ;; This list of types may not be complete.
       (setq value nil))
     (when (listp value)
       ;; truncate cyclic lists b/c they corrupt the data store

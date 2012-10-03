@@ -362,6 +362,26 @@
     (should-not
      (persistent-soft-fetch 'font-obj-key "ert-test-persistent-soft-location-1"))))
 
+(ert-deftest persistent-soft-a:h-invalid-data-types-09 nil
+  (let ((value (current-frame-configuration)))
+    (should
+     (persistent-soft-store 'buffer-key value "ert-test-persistent-soft-location-1"))
+    (should
+     (persistent-soft-exists-p 'buffer-key "ert-test-persistent-soft-location-1"))
+    (should-not
+     (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1"))))
+
+;; todo this type is not serializable, but there isn't a test for it in persistent-soft
+;;
+;; (ert-deftest persistent-soft-a:h-invalid-data-types-10 nil
+;;   (let ((value (selected-terminal)))
+;;     (should
+;;      (persistent-soft-store 'keymap-key value "ert-test-persistent-soft-location-1"))
+;;     (should
+;;      (persistent-soft-exists-p 'keymap-key "ert-test-persistent-soft-location-1"))
+;;     (should (equal value
+;;                    (persistent-soft-fetch 'keymap-key "ert-test-persistent-soft-location-1")))))
+
 
 ;;; expiration
 
