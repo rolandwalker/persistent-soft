@@ -142,11 +142,11 @@
 (require 'pcache     nil t)
 (require 'list-utils nil t)
 
-(declare-function pcache-get         "pcache.el")
-(declare-function pcache-has         "pcache.el")
-(declare-function pcache-put         "pcache.el")
-(declare-function pcache-repository  "pcache.el")
-(declare-function pcache-save        "pcache.el")
+(declare-function pcache-get                 "pcache.el")
+(declare-function pcache-has                 "pcache.el")
+(declare-function pcache-put                 "pcache.el")
+(declare-function pcache-repository          "pcache.el")
+(declare-function pcache-save                "pcache.el")
 (declare-function pcache-destroy-repository  "pcache.el")
 
 ;;; customizable variables
