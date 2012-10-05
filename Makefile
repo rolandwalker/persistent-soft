@@ -39,9 +39,9 @@ TEST_DEP_3_STABLE_URL=https://raw.github.com/rolandwalker/list-utils/557077141dc
 TEST_DEP_3_LATEST_URL=https://raw.github.com/rolandwalker/list-utils/master/list-utils.el
 
 .PHONY : build downloads downloads-latest autoloads test-autoloads test-travis \
-         test test-prep test-batch test-interactive test-tests clean edit      \
-         test-dep-1 test-dep-2 test-dep-3 test-dep-4 test-dep-5 test-dep-6     \
-         test-dep-7 test-dep-8 test-dep-9
+ test test-prep test-batch test-interactive test-tests clean edit run-pristine \
+ run-pristine-local test-dep-1 test-dep-2 test-dep-3 test-dep-4 test-dep-5     \
+ test-dep-6 test-dep-7 test-dep-8 test-dep-9
 
 build :
 	$(RESOLVED_EMACS) $(EMACS_BATCH) --eval    \
@@ -137,6 +137,31 @@ test-interactive : test-prep
 	done)
 
 test : test-prep test-batch
+
+run-pristine :
+	@cd $(TEST_DIR)                                                && \
+	$(RESOLVED_EMACS) $(EMACS_CLEAN) --eval                           \
+	 "(progn                                                          \
+	   (setq package-enable-at-startup nil)                           \
+	   (setq package-load-list '(($(TEST_DEP_2) t)                    \
+				     ($(TEST_DEP_3) t)))                  \
+	   (when (fboundp 'package-initialize)                            \
+	    (package-initialize))                                         \
+	   (cd \"$(WORK_DIR)/$(TEST_DIR)\")                               \
+	   (setq dired-use-ls-dired nil)                                  \
+	   (setq frame-title-format \"PRISTINE SESSION $(PACKAGE_NAME)\") \
+	   (setq enable-local-variables :safe))"                          \
+	 -L .. -l $(PACKAGE_NAME) .
+
+run-pristine-local :
+	@cd $(TEST_DIR)                                                && \
+	$(RESOLVED_EMACS) $(EMACS_CLEAN) --eval                           \
+	 "(progn                                                          \
+	   (cd \"$(WORK_DIR)/$(TEST_DIR)\")                               \
+	   (setq dired-use-ls-dired nil)                                  \
+	   (setq frame-title-format \"PRISTINE-LOCAL SESSION $(PACKAGE_NAME)\") \
+	   (setq enable-local-variables :safe))"                          \
+	 -L . -L .. -l $(PACKAGE_NAME) .
 
 clean :
 	@rm -f $(AUTOLOADS_FILE) *.elc *~ */*.elc */*~ $(TEST_DIR)/$(TEST_DEP_1).el \
