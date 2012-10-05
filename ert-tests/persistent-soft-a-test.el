@@ -423,13 +423,6 @@
    (persistent-soft-fetch 'expiring-key "ert-test-persistent-soft-location-1")))
 
 
-;;; flush
-
-(ert-deftest persistent-soft-a:j-flush-01 nil
-  (should
-   (persistent-soft-flush "ert-test-persistent-soft-location-1")))
-
-
 ;;; sanitize - todo complex function should have more tests
 
 (ert-deftest persistent-soft-a:k-sanitize-01 nil
@@ -469,6 +462,13 @@
       (puthash 1 (current-buffer) value)
       (should (equal "*scratch*"
                      (gethash 1 (persistent-soft--sanitize-data value)))))))
+
+
+;;; flush
+
+(ert-deftest persistent-soft-a:z-flush-01 nil
+  (should
+   (persistent-soft-flush "ert-test-persistent-soft-location-1")))
 
 
 ;;
