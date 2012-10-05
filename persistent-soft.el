@@ -81,9 +81,6 @@
 ;;
 ;; TODO
 ;;
-;;     Recursively scan sequences for any element which would corrupt
-;;     datastore.
-;;
 ;;     Detect terminal type as returned by (selected-terminal)
 ;;     as unserializable.
 ;;
