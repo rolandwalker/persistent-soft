@@ -184,6 +184,45 @@
                    (persistent-soft-fetch 'object-key "ert-test-persistent-soft-location-1")))))
 
 
+;;; large values
+
+(ert-deftest persistent-soft-b:d-large-values-01 nil
+  "Long list without sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 100000 200000))))
+    (should
+     (persistent-soft-exists-p 'long-list-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'long-list-key "ert-test-persistent-soft-location-1")))))
+
+(ert-deftest persistent-soft-b:d-large-values-02 nil
+  "Long list with sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 100000 200000))))
+    (should
+     (persistent-soft-exists-p 'long-list-sanitized-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'long-list-sanitized-key "ert-test-persistent-soft-location-1")))))
+
+(ert-deftest persistent-soft-b:d-large-values-03 nil
+  "Deep list without sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 1 10))))
+    (dotimes (i 10)
+      (push value value))
+    (should
+     (persistent-soft-exists-p 'deep-list-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'deep-list-key "ert-test-persistent-soft-location-1")))))
+
+(ert-deftest persistent-soft-b:d-large-values-04 nil
+  "Deep list with sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 1 10))))
+    (dotimes (i 10)
+      (push value value))
+    (should
+     (persistent-soft-exists-p 'deep-list-sanitized-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'deep-list-sanitized-key "ert-test-persistent-soft-location-1")))))
+
+
 ;;
 ;; Emacs
 ;;

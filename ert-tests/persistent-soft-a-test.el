@@ -423,6 +423,58 @@
    (persistent-soft-fetch 'expiring-key "ert-test-persistent-soft-location-1")))
 
 
+;;; large data sets -- todo fetch these in further test modules
+
+(ert-deftest persistent-soft-a:j-large-values-01 nil
+  "Long list without sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 100000 200000))))
+    (should
+     (let ((persistent-soft-inhibit-sanity-checks t))
+       (persistent-soft-store 'long-list-key value "ert-test-persistent-soft-location-1")))
+    (should
+     (persistent-soft-exists-p 'long-list-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'long-list-key "ert-test-persistent-soft-location-1")))))
+
+(ert-deftest persistent-soft-a:j-large-values-02 nil
+  "Long list with sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 100000 200000))))
+    (should
+     (let ((persistent-soft-inhibit-sanity-checks nil))
+       (persistent-soft-store 'long-list-sanitized-key value "ert-test-persistent-soft-location-1")))
+    (should
+     (persistent-soft-exists-p 'long-list-sanitized-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'long-list-sanitized-key "ert-test-persistent-soft-location-1")))))
+
+(ert-deftest persistent-soft-a:j-large-values-03 nil
+  "Deep list without sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 1 10))))
+    (dotimes (i 10)
+      (push value value))
+    (should
+     (let ((persistent-soft-inhibit-sanity-checks t))
+       (persistent-soft-store 'deep-list-key value "ert-test-persistent-soft-location-1")))
+    (should
+     (persistent-soft-exists-p 'deep-list-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'deep-list-key "ert-test-persistent-soft-location-1")))))
+
+;; todo sanitization not efficient enough, this takes forever if the list is 20 deep
+(ert-deftest persistent-soft-a:j-large-values-04 nil
+  "Deep list with sanity check"
+  (let ((value (mapcar 'number-to-string (number-sequence 1 10))))
+    (dotimes (i 10)
+      (push value value))
+    (should
+     (let ((persistent-soft-inhibit-sanity-checks nil))
+       (persistent-soft-store 'deep-list-sanitized-key value "ert-test-persistent-soft-location-1")))
+    (should
+     (persistent-soft-exists-p 'deep-list-sanitized-key "ert-test-persistent-soft-location-1"))
+    (should (equal value
+                   (persistent-soft-fetch 'deep-list-sanitized-key "ert-test-persistent-soft-location-1")))))
+
+
 ;;; sanitize - todo complex function should have more tests
 
 (ert-deftest persistent-soft-a:k-sanitize-01 nil

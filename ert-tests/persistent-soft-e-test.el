@@ -182,6 +182,37 @@
    (persistent-softest-fetch 'object-key "ert-test-persistent-soft-location-1")))
 
 
+;;; large values
+
+(ert-deftest persistent-soft-e:d-large-values-01 nil
+  "Long list without sanity check"
+  (should-not
+   (persistent-softest-exists-p 'long-list-key "ert-test-persistent-soft-location-1"))
+  (should-not
+   (persistent-softest-fetch 'long-list-key "ert-test-persistent-soft-location-1")))
+
+(ert-deftest persistent-soft-e:d-large-values-02 nil
+  "Long list with sanity check"
+  (should-not
+   (persistent-softest-exists-p 'long-list-sanitized-key "ert-test-persistent-soft-location-1"))
+  (should-not
+   (persistent-softest-fetch 'long-list-sanitized-key "ert-test-persistent-soft-location-1")))
+
+(ert-deftest persistent-soft-e:d-large-values-03 nil
+  "Deep list without sanity check"
+  (should-not
+   (persistent-softest-exists-p 'deep-list-key "ert-test-persistent-soft-location-1"))
+  (should-not
+   (persistent-softest-fetch 'deep-list-key "ert-test-persistent-soft-location-1")))
+
+(ert-deftest persistent-soft-e:d-large-values-04 nil
+  "Deep list with sanity check"
+  (should-not
+   (persistent-softest-exists-p 'deep-list-sanitized-key "ert-test-persistent-soft-location-1"))
+  (should-not
+   (persistent-softest-fetch 'deep-list-sanitized-key "ert-test-persistent-soft-location-1")))
+
+
 ;;
 ;; Emacs
 ;;
