@@ -338,7 +338,9 @@ on failure, without throwing an error."
     (callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
                 (cl-flet ((message (&rest args) t))
-                  (pcache-repository location)))))
+                  (pcache-repository location))))
+          (print-level nil)
+          (print-length nil))
       (and repo (ignore-errors
                 (cl-flet ((message (&rest args) t))
                   (pcache-put repo symbol value expiration)))))))
