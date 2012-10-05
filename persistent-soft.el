@@ -200,8 +200,7 @@ by setting `persistent-soft-inhibit-sanity-checks'."
           (= 0 (length data)))
      (vector))
     ((vectorp data)
-     (vconcat (list (persistent-soft--sanitize-data (aref data 0)))
-              (persistent-soft--sanitize-data (vconcat (cdr (append data nil))))))
+     (vconcat (mapcar 'persistent-soft--sanitize-data data)))
     ((listp data)
      ;; truncate cyclic lists
      (if (fboundp 'list-utils-cyclic-subseq)
@@ -212,8 +211,17 @@ by setting `persistent-soft-inhibit-sanity-checks'."
          (when (and (> len 0)
                     (not (nthcdr len data)))
            (setq data (subseq data 0 len)))))
-     (cons (persistent-soft--sanitize-data (car data))
-           (persistent-soft--sanitize-data (cdr data))))
+     (let ((len (safe-length data)))
+       (cond
+         ;; conses and improper lists
+         ((and (listp data)
+               (nthcdr len data))
+          (append (mapcar 'persistent-soft--sanitize-data (subseq data 0 (1- (safe-length data))))
+                  (cons (persistent-soft--sanitize-data (car (last data)))
+                        (persistent-soft--sanitize-data (cdr (last data))))))
+         (t
+          ;; proper lists
+          (mapcar 'persistent-soft--sanitize-data data)))))
     ((hash-table-p data)
      (let ((cleaned-hash (copy-hash-table data))
            (default-value (gensym)))
