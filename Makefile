@@ -36,7 +36,7 @@ TEST_DEP_2=pcache
 TEST_DEP_2_STABLE_URL=https://raw.github.com/sigma/pcache/fa8f863546e2e8f2fc0a70f5cc766a7f584e01b6/pcache.el
 TEST_DEP_2_LATEST_URL=https://raw.github.com/sigma/pcache/master/pcache.el
 TEST_DEP_3=list-utils
-TEST_DEP_3_STABLE_URL=https://raw.github.com/rolandwalker/list-utils/557077141dccbedb460f3786d0f0900293214851/list-utils.el
+TEST_DEP_3_STABLE_URL=https://raw.github.com/rolandwalker/list-utils/a34f1d5c0be3faadd76680509e958797a60c0a41/list-utils.el
 TEST_DEP_3_LATEST_URL=https://raw.github.com/rolandwalker/list-utils/master/list-utils.el
 
 .PHONY : build downloads downloads-latest autoloads test-autoloads test-travis \
