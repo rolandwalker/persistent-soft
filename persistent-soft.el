@@ -134,7 +134,9 @@
   ;; for callf, flet/cl-flet
   (require 'cl)
   (unless (fboundp 'cl-flet)
-    (defalias 'cl-flet 'flet)))
+    (defalias 'cl-flet 'flet)
+    (put 'cl-flet 'lisp-indent-function 1)
+    (put 'cl-flet 'edebug-form-spec '((&rest (defun*)) cl-declarations body))))
 
 (require 'pcache     nil t)
 (require 'list-utils nil t)
