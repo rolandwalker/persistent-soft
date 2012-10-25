@@ -22,14 +22,14 @@ Quickstart
 persistent-soft
 ---------------
 
-This is a (trivial) wrapper around pcache.el, providing "soft"
-fetch and store routines which never throw an error, but instead
-return nil on failure.
+This is a wrapper around [pcache.el](http://github.com/sigma/pcache), providing "soft" fetch and
+store routines which never throw an error, but instead return
+nil on failure.
 
 There is no end-user interface for this library.  It is only
 useful from other Lisp code.
 
-The following functions are provided
+The following functions are provided:
 
 	persistent-soft-store
 	persistent-soft-fetch
@@ -54,7 +54,7 @@ M-x customize-group RET persistent-soft RET
 Notes
 -----
 
-Using pcache with a more recent version of CEDET gives
+Using [pcache](http://github.com/sigma/pcache) with a more recent version of [CEDET](http://cedet.sourceforge.net/) gives
 
 	Unsafe call to `eieio-persistent-read'.
 	eieio-persistent-read: Wrong type argument: class-p, nil

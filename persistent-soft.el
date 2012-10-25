@@ -28,14 +28,14 @@
 ;;
 ;; Explanation
 ;;
-;; This is a (trivial) wrapper around pcache.el, providing "soft"
-;; fetch and store routines which never throw an error, but instead
-;; return nil on failure.
+;; This is a wrapper around pcache.el, providing "soft" fetch and
+;; store routines which never throw an error, but instead return
+;; nil on failure.
 ;;
 ;; There is no end-user interface for this library.  It is only
 ;; useful from other Lisp code.
 ;;
-;; The following functions are provided
+;; The following functions are provided:
 ;;
 ;;     `persistent-soft-store'
 ;;     `persistent-soft-fetch'
@@ -80,6 +80,10 @@
 ;;     rewritten to use eieio directly or recast as a patch to pcache.
 ;;
 ;; TODO
+;;
+;;     Setting print-quoted doesn't seem to influence EIEIO.
+;;     It doesn't seem right that the sanitization stuff
+;;     is needed.
 ;;
 ;;     Detect terminal type as returned by (selected-terminal)
 ;;     as unserializable.
