@@ -131,10 +131,9 @@
 ;;; Code:
 ;;
 
-;;; requires
+;;; requirements
 
 (eval-and-compile
-  (defvar pcache-directory)
   ;; for callf, flet/cl-flet
   (require 'cl)
   (unless (fboundp 'cl-flet)
@@ -144,6 +143,11 @@
 
 (require 'pcache     nil t)
 (require 'list-utils nil t)
+
+;;; declarations
+
+(eval-when-compile
+  (defvar pcache-directory))
 
 (declare-function pcache-get                 "pcache.el")
 (declare-function pcache-has                 "pcache.el")
