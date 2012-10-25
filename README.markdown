@@ -19,8 +19,8 @@ Quickstart
 (persistent-soft-fetch 'hundred "mydatastore")    ; 100
 ```
 
-persistent-soft
----------------
+Explanation
+-----------
 
 This is a wrapper around [pcache.el](http://github.com/sigma/pcache), providing "soft" fetch and
 store routines which never throw an error, but instead return

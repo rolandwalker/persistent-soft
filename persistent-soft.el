@@ -373,7 +373,7 @@ on failure, without throwing an error."
 ;; byte-compile-warnings: (not cl-functions redefine)
 ;; End:
 ;;
-;; LocalWords:  pcache eieio callf
+;; LocalWords:  pcache eieio callf mydatastore utils devel flet EIEIO
 ;;
 
 ;;; persistent-soft.el ends here
