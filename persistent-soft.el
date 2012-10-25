@@ -271,7 +271,7 @@ by setting `persistent-soft-inhibit-sanity-checks'."
      nil)
     (t
      (condition-case nil
-         (cl-flet ((message (&rest args) t))
+         (cl-flet ((message (&rest _ignored) t))
            (pcache-repository location))
        (error nil)))))
 
@@ -298,10 +298,10 @@ Returns nil on failure, without throwing an error."
              (stringp location)
              (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
-                  (cl-flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest _ignored) t))
                     (pcache-repository location)))))
       (when (and repo (ignore-errors
-                        (cl-flet ((message (&rest args) t))
+                        (cl-flet ((message (&rest _ignored) t))
                           (pcache-has repo symbol))))
         t))))
 
@@ -316,10 +316,10 @@ Returns nil on failure, without throwing an error."
              (stringp location)
              (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
-                  (cl-flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest _ignored) t))
                     (pcache-repository location)))))
       (and repo (ignore-errors
-                  (cl-flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest _ignored) t))
                     (pcache-get repo symbol)))))))
 
 ;;;###autoload
@@ -328,11 +328,11 @@ Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (let ((repo (ignore-errors
-                  (cl-flet ((message (&rest args) t))
+                  (cl-flet ((message (&rest _ignored) t))
                     (pcache-repository location)))))
       (when repo
         (condition-case nil
-          (cl-flet ((message (&rest args) t))
+          (cl-flet ((message (&rest _ignored) t))
             (pcache-save repo 'force)
             t)
           (error nil))))))
@@ -352,12 +352,12 @@ on failure, without throwing an error."
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
     (callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
-                (cl-flet ((message (&rest args) t))
+                (cl-flet ((message (&rest _ignored) t))
                   (pcache-repository location))))
           (print-level nil)
           (print-length nil))
       (and repo (ignore-errors
-                (cl-flet ((message (&rest args) t))
+                (cl-flet ((message (&rest _ignored) t))
                   (pcache-put repo symbol value expiration)))))))
 
 (provide 'persistent-soft)
