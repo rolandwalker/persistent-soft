@@ -3,7 +3,7 @@
 Overview
 ========
 
-Persistent storage, returning nil on failure.
+Persistent storage for Emacs, returning nil on failure.
 
 Quickstart
 ----------
