@@ -164,7 +164,9 @@
 (defgroup persistent-soft nil
   "Persistent storage, returning nil on failure."
   :version "0.8.6"
-  :link '(emacs-commentary-link "persistent-soft")
+  :link '(emacs-commentary-link :tag "Commentary" "persistent-soft")
+  :link '(url-link :tag "Github" "http://github.com/rolandwalker/persistent-soft")
+  :link '(url-link :tag "EmacsWiki" "http://emacswiki.org/emacs/PersistentSoft")
   :prefix "persistent-soft-"
   :group 'extensions)
 
