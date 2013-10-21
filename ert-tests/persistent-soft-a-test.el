@@ -530,6 +530,17 @@
    (persistent-soft-flush "ert-test-persistent-soft-location-1")))
 
 
+;;; compatibility hack
+
+;; @@@ hack for emacs 24.4-snapshot, in which function ert-run-tests-batch-and-exit
+;;     runs tests in reverse order
+
+(unless (version-list-<
+         (version-to-list emacs-version)
+         '(24 3 50))
+  (defadvice ert-select-tests (after ert-select-tests-reverse activate)
+    (setq ad-return-value (reverse ad-return-value))))
+
 ;;
 ;; Emacs
 ;;
