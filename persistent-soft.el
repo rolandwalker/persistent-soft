@@ -185,12 +185,9 @@ This is portable to versions of Emacs without dynamic `flet`."
   (let ((o (gensym "--function--")))
     `(let ((,o (symbol-function ,func)))
        (fset ,func #'(lambda (&rest _ignored) ,ret-val))
-       (condition-case err
-           (prog1 (progn ,@body)
-             (fset ,func ,o))
-         (error
-          (fset ,func ,o)
-          (signal (car err) (cdr err)))))))
+       (unwind-protect
+           (progn ,@body)
+         (fset ,func ,o)))))
 
 (defmacro persistent-soft--with-suppressed-messages (&rest body)
   "Execute BODY, suppressing all output to \"message\".
