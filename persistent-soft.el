@@ -347,7 +347,7 @@ Returns nil on failure, without throwing an error."
       (when repo
         (condition-case nil
             (persistent-soft--with-suppressed-messages
-            (pcache-save repo 'force)
+              (pcache-save repo 'force)
             t)
           (error nil))))))
 
@@ -367,12 +367,12 @@ on failure, without throwing an error."
     (callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
                   (persistent-soft--with-suppressed-messages
-                  (pcache-repository location))))
+                    (pcache-repository location))))
           (print-level nil)
           (print-length nil))
       (and repo (ignore-errors
                   (persistent-soft--with-suppressed-messages
-                  (pcache-put repo symbol value expiration)))))))
+                    (pcache-put repo symbol value expiration)))))))
 
 (provide 'persistent-soft)
 
