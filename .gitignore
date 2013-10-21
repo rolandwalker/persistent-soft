@@ -1,1 +1,4 @@
 /ert-tests/ert.el
+/ert-tests/list-utils.el
+/ert-tests/pcache.el
+/ert-tests/test_output/
