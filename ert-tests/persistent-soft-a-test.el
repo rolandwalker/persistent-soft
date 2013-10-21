@@ -380,11 +380,11 @@
   :tags '(:interactive)
   (let ((value (current-frame-configuration)))
     (should
-     (persistent-soft-store 'buffer-key value "ert-test-persistent-soft-location-1"))
+     (persistent-soft-store 'frame-config-key value "ert-test-persistent-soft-location-1"))
     (should
-     (persistent-soft-exists-p 'buffer-key "ert-test-persistent-soft-location-1"))
+     (persistent-soft-exists-p 'frame-config-key "ert-test-persistent-soft-location-1"))
     (should (stringp
-             (persistent-soft-fetch 'buffer-key "ert-test-persistent-soft-location-1")))))
+             (persistent-soft-fetch 'frame-config-key "ert-test-persistent-soft-location-1")))))
 
 ;; todo this type is not serializable, but there isn't a test for it in persistent-soft
 ;;
