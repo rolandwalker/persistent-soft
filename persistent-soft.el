@@ -134,12 +134,8 @@
 ;;; requirements
 
 (eval-and-compile
-  ;; for callf, flet/cl-flet*
-  (require 'cl)
-  (unless (fboundp 'cl-flet*)
-    (defalias 'cl-flet* 'flet)
-    (put 'cl-flet* 'lisp-indent-function 1)
-    (put 'cl-flet* 'edebug-form-spec '((&rest (defun*)) cl-declarations body))))
+  ;; for callf
+  (require 'cl))
 
 (require 'pcache     nil t)
 (require 'list-utils nil t)
@@ -178,6 +174,22 @@
 ;;; variables
 
 (defvar persistent-soft-inhibit-sanity-checks nil "Turn off sanitization of data at store-time.")
+
+;;; macros
+
+(defmacro persistent-soft--with-suppressed-messages (&rest body)
+  "Execute BODY, suppressing all output to \"message\".
+
+This is portable to versions of Emacs without dynamic `flet`."
+  (declare (debug t) (indent 0))
+  `(let ((subr-msg (symbol-function 'message)))
+     (fset 'message #'(lambda (&rest _ignored) t))
+     (condition-case err
+         (prog1 (progn ,@body)
+           (fset 'message subr-msg))
+       (error
+        (fset 'message subr-msg)
+        (signal (car err) (cdr err))))))
 
 ;;; utility functions
 
@@ -273,7 +285,7 @@ by setting `persistent-soft-inhibit-sanity-checks'."
      nil)
     (t
      (condition-case nil
-         (cl-flet* ((message (&rest _ignored) t))
+         (persistent-soft--with-suppressed-messages
            (pcache-repository location))
        (error nil)))))
 
@@ -300,10 +312,10 @@ Returns nil on failure, without throwing an error."
              (stringp location)
              (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
-                  (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                     (pcache-repository location)))))
       (when (and repo (ignore-errors
-                        (cl-flet* ((message (&rest _ignored) t))
+                        (persistent-soft--with-suppressed-messages
                           (pcache-has repo symbol))))
         t))))
 
@@ -318,10 +330,10 @@ Returns nil on failure, without throwing an error."
              (stringp location)
              (persistent-soft-location-readable location))
     (let ((repo (ignore-errors
-                  (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                     (pcache-repository location)))))
       (and repo (ignore-errors
-                  (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                     (pcache-get repo symbol)))))))
 
 ;;;###autoload
@@ -330,11 +342,11 @@ Returns nil on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
     (let ((repo (ignore-errors
-                  (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                     (pcache-repository location)))))
       (when repo
         (condition-case nil
-          (cl-flet* ((message (&rest _ignored) t))
+            (persistent-soft--with-suppressed-messages
             (pcache-save repo 'force)
             t)
           (error nil))))))
@@ -354,12 +366,12 @@ on failure, without throwing an error."
     (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
     (callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
-                (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                   (pcache-repository location))))
           (print-level nil)
           (print-length nil))
       (and repo (ignore-errors
-                (cl-flet* ((message (&rest _ignored) t))
+                  (persistent-soft--with-suppressed-messages
                   (pcache-put repo symbol value expiration)))))))
 
 (provide 'persistent-soft)
