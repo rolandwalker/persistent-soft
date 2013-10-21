@@ -130,6 +130,14 @@
                    (persistent-soft-fetch 'symbol-key "ert-test-persistent-soft-location-1")))))
 
 (ert-deftest persistent-soft-b:c-data-types-12 nil
+
+  ;; @@@ temporary, because eieio in 24.4-snapshot chokes on retrieving the char-table
+  :expected-result (if (version-list-<
+                        (version-to-list emacs-version)
+                        '(24 3 50))
+                       :passed
+                     :failed)
+
   (let ((value (with-temp-buffer
                  (emacs-lisp-mode)
                  (syntax-table))))
