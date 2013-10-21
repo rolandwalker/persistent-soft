@@ -177,19 +177,28 @@
 
 ;;; macros
 
+(defmacro persistent-soft--with-mocked-function (func ret-val &rest body)
+  "Execute BODY, mocking FUNC (a symbol) to unconditionally return RET-VAL.
+
+This is portable to versions of Emacs without dynamic `flet`."
+  (declare (debug t) (indent 2))
+  (let ((o (gensym "--function--")))
+    `(let ((,o (symbol-function ,func)))
+       (fset ,func #'(lambda (&rest _ignored) ,ret-val))
+       (condition-case err
+           (prog1 (progn ,@body)
+             (fset ,func ,o))
+         (error
+          (fset ,func ,o)
+          (signal (car err) (cdr err)))))))
+
 (defmacro persistent-soft--with-suppressed-messages (&rest body)
   "Execute BODY, suppressing all output to \"message\".
 
 This is portable to versions of Emacs without dynamic `flet`."
   (declare (debug t) (indent 0))
-  `(let ((subr-msg (symbol-function 'message)))
-     (fset 'message #'(lambda (&rest _ignored) t))
-     (condition-case err
-         (prog1 (progn ,@body)
-           (fset 'message subr-msg))
-       (error
-        (fset 'message subr-msg)
-        (signal (car err) (cdr err))))))
+  `(persistent-soft--with-mocked-function 'message t
+     ,@body))
 
 ;;; utility functions
 
