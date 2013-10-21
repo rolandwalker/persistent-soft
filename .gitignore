@@ -2,3 +2,4 @@
 /ert-tests/list-utils.el
 /ert-tests/pcache.el
 /ert-tests/test_output/
+*-autoloads.el
