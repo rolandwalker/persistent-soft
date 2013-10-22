@@ -9,7 +9,7 @@
 ;; Last-Updated:  5 Oct 2012
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data, extensions
-;; Package-Requires: ((pcache "0.2.3") (list-utils "0.2.0"))
+;; Package-Requires: ((pcache "0.2.3") (list-utils "0.4.2"))
 ;;
 ;; Simplified BSD License
 ;;
