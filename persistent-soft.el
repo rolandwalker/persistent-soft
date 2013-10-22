@@ -5,8 +5,8 @@
 ;; Author: Roland Walker <walker@pobox.com>
 ;; Homepage: http://github.com/rolandwalker/persistent-soft
 ;; URL: http://raw.github.com/rolandwalker/persistent-soft/master/persistent-soft.el
-;; Version: 0.8.6
-;; Last-Updated:  5 Oct 2012
+;; Version: 0.8.8
+;; Last-Updated: 22 Oct 2013
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data, extensions
 ;; Package-Requires: ((pcache "0.2.3") (list-utils "0.4.2"))
@@ -159,7 +159,7 @@
 ;;;###autoload
 (defgroup persistent-soft nil
   "Persistent storage, returning nil on failure."
-  :version "0.8.6"
+  :version "0.8.8"
   :link '(emacs-commentary-link :tag "Commentary" "persistent-soft")
   :link '(url-link :tag "GitHub" "http://github.com/rolandwalker/persistent-soft")
   :link '(url-link :tag "EmacsWiki" "http://emacswiki.org/emacs/PersistentSoft")
