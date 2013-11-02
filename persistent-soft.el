@@ -350,7 +350,9 @@ Returns nil on failure, without throwing an error."
              (stringp location))
     (let ((repo (ignore-errors
                   (persistent-soft--with-suppressed-messages
-                    (pcache-repository location)))))
+                    (pcache-repository location))))
+          (print-level nil)
+          (print-length nil))
       (when repo
         (condition-case nil
             (persistent-soft--with-suppressed-messages
