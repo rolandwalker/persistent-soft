@@ -45,7 +45,7 @@ somewhere Emacs can find it, and add the following to your
 
 ## See Also
 
-<kbd>M-x</kbd> <kbd>customize-group</kbd> <kbd>RET</kbd> <kbd>persistent-soft</kbd> <kbd>RET</kbd>
+* <kbd>M-x</kbd> <kbd>customize-group</kbd> <kbd>RET</kbd> <kbd>persistent-soft</kbd> <kbd>RET</kbd>
 
 ## Notes
 
