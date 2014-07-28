@@ -1,12 +1,10 @@
 [![Build Status](https://secure.travis-ci.org/rolandwalker/persistent-soft.png?branch=master)](http://travis-ci.org/rolandwalker/persistent-soft)
 
-Overview
-========
+# Overview
 
 Persistent storage for Emacs, returning nil on failure.
 
-Quickstart
-----------
+## Quickstart
 
 ```elisp
 (require 'persistent-soft)
@@ -19,8 +17,7 @@ Quickstart
 (persistent-soft-fetch 'hundred "mydatastore")    ; 100
 ```
 
-Explanation
------------
+## Explanation
 
 This is a wrapper around [pcache.el](http://github.com/sigma/pcache), providing "soft" fetch and
 store routines which never throw an error, but instead return
@@ -46,13 +43,11 @@ somewhere Emacs can find it, and add the following to your
 (require 'persistent-soft)
 ```
 
-See Also
---------
+## See Also
 
 M-x customize-group RET persistent-soft RET
 
-Notes
------
+## Notes
 
 Using [pcache](http://github.com/sigma/pcache) with a more recent version of [CEDET](http://cedet.sourceforge.net/) gives
 
@@ -61,15 +56,13 @@ Using [pcache](http://github.com/sigma/pcache) with a more recent version of [CE
 
 This library provides something of a workaround.
 
-Bugs
-----
+## Bugs
 
 Persistent-soft is a wrapper around pcache which is a wrapper
 around eieio.  Therefore, persistent-soft should probably be
 rewritten to use eieio directly or recast as a patch to pcache.
 
-Compatibility and Requirements
-------------------------------
+## Compatibility and Requirements
 
 	GNU Emacs version 24.4-devel     : yes, at the time of writing
 	GNU Emacs version 24.3           : yes
