@@ -69,5 +69,4 @@ rewritten to use eieio directly or recast as a patch to pcache.
 	GNU Emacs version 23.3           : yes
 	GNU Emacs version 22.3 and lower : no
 
-Uses if present: [pcache.el](http://github.com/sigma/pcache) (all operations are noops when
-not present)
+Uses if present: [pcache.el](http://github.com/sigma/pcache) **(all operations are noops when not present)**
