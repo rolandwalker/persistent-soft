@@ -35,9 +35,9 @@ The following functions are provided:
 	persistent-soft-location-readable
 	persistent-soft-location-destroy
 
-To use persistent-soft, place the persistent-soft.el library
+To use persistent-soft, place the `persistent-soft.el` library
 somewhere Emacs can find it, and add the following to your
-~/.emacs file:
+`~/.emacs` file:
 
 ```elisp
 (require 'persistent-soft)
