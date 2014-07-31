@@ -4,6 +4,13 @@
 
 Persistent storage for Emacs, returning nil on failure.
 
+ * [Quickstart](#quickstart)
+ * [Explanation](#explanation)
+ * [See Also](#see-also)
+ * [Notes](#notes)
+ * [Bugs](#bugs)
+ * [Compatibility and Requirements](#compatibility-and-requirements)
+
 ## Quickstart
 
 ```elisp
@@ -45,7 +52,7 @@ somewhere Emacs can find it, and add the following to your
 
 ## See Also
 
-* <kbd>M-x</kbd> <kbd>customize-group</kbd> <kbd>RET</kbd> <kbd>persistent-soft</kbd> <kbd>RET</kbd>
+ * <kbd>M-x</kbd> <kbd>customize-group</kbd> <kbd>RET</kbd> <kbd>persistent-soft</kbd> <kbd>RET</kbd>
 
 ## Notes
 
