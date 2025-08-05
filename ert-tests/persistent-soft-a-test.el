@@ -128,7 +128,7 @@
 
 (ert-deftest persistent-soft-a:g-data-types-02 nil
   (let ((value "string with properties"))
-    (callf propertize value :face 'bold)
+    (cl-callf propertize value :face 'bold)
     (should
      (persistent-soft-store 'string-with-properties-key value "ert-test-persistent-soft-location-1"))
     (should

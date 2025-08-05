@@ -373,8 +373,8 @@ Returns a true value if storage was successful.  Returns nil
 on failure, without throwing an error."
   (when (and (featurep 'pcache)
              (stringp location))
-    (callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
-    (callf persistent-soft--sanitize-data value)
+    (cl-callf or expiration (round (* 60 60 24 persistent-soft-default-expiration-days)))
+    (cl-callf persistent-soft--sanitize-data value)
     (let ((repo (ignore-errors
                   (persistent-soft--with-suppressed-messages
                     (pcache-repository location))))
