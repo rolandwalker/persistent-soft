@@ -1,4 +1,4 @@
-;;; persistent-soft.el --- Persistent storage, returning nil on failure
+;;; persistent-soft.el --- Persistent storage, returning nil on failure  -*- lexical-binding: nil; -*-
 ;;
 ;; Copyright (c) 2012-2015 Roland Walker
 ;;
@@ -9,7 +9,7 @@
 ;; Last-Updated: 23 Feb 2015
 ;; EmacsWiki: PersistentSoft
 ;; Keywords: data, extensions
-;; Package-Requires: ((pcache "0.3.1") (list-utils "0.4.2"))
+;; Package-Requires: ((cl-lib "0.7.1") (pcache "0.3.1") (list-utils "0.4.2"))
 ;;
 ;; Simplified BSD License
 ;;
@@ -134,8 +134,8 @@
 ;;; requirements
 
 (eval-and-compile
-  ;; for callf
-  (require 'cl))
+  ;; for cl-callf, cl-subseq
+  (require 'cl-lib))
 
 (require 'pcache     nil t)
 (require 'list-utils nil t)
@@ -182,7 +182,7 @@
 
 This is portable to versions of Emacs without dynamic `flet`."
   (declare (debug t) (indent 2))
-  (let ((o (gensym "--function--")))
+  (let ((o (cl-gensym "--function--")))
     `(let ((,o (ignore-errors (symbol-function ,func))))
        (fset ,func #'(lambda (&rest _ignored) ,ret-val))
        (unwind-protect
@@ -233,18 +233,18 @@ by setting `persistent-soft-inhibit-sanity-checks'."
      ;; truncate cyclic lists
      (if (fboundp 'list-utils-cyclic-subseq)
          (when (list-utils-cyclic-subseq data)
-           (setq data (subseq data 0 (list-utils-safe-length data))))
+           (setq data (cl-subseq data 0 (list-utils-safe-length data))))
        ;; else
        (let ((len (safe-length data)))
          (when (and (> len 0)
                     (not (nthcdr len data)))
-           (setq data (subseq data 0 len)))))
+           (setq data (cl-subseq data 0 len)))))
      (let ((len (safe-length data)))
        (cond
          ;; conses and improper lists
          ((and (listp data)
                (nthcdr len data))
-          (append (mapcar 'persistent-soft--sanitize-data (subseq data 0 (1- (safe-length data))))
+          (append (mapcar 'persistent-soft--sanitize-data (cl-subseq data 0 (1- (safe-length data))))
                   (cons (persistent-soft--sanitize-data (car (last data)))
                         (persistent-soft--sanitize-data (cdr (last data))))))
          (t
@@ -252,7 +252,7 @@ by setting `persistent-soft-inhibit-sanity-checks'."
           (mapcar 'persistent-soft--sanitize-data data)))))
     ((hash-table-p data)
      (let ((cleaned-hash (copy-hash-table data))
-           (default-value (gensym)))
+           (default-value (cl-gensym)))
        (maphash #'(lambda (k v)
                     (let ((new-k (persistent-soft--sanitize-data k))
                           (new-v (persistent-soft--sanitize-data v)))
@@ -394,7 +394,7 @@ on failure, without throwing an error."
 ;; mangle-whitespace: t
 ;; require-final-newline: t
 ;; coding: utf-8
-;; byte-compile-warnings: (not cl-functions redefine)
+;; byte-compile-warnings: (not redefine)
 ;; End:
 ;;
 ;; LocalWords:  pcache eieio callf mydatastore utils devel flet EIEIO
